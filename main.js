@@ -1,5 +1,9 @@
 const contextMenuItems = [
     {
+        id: 'sendToChatGPT_Text_Friendly',
+        title: 'Make This Text More Friendly and Persuasive - ChatGPT',
+    },
+    {
         id: 'sendToChatGPT_Context',
         title: 'Send This As Context - ChatGPT',
     },
@@ -34,6 +38,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     let prefixedText;
 
     switch (info.menuItemId) {
+        case 'sendToChatGPT_Text_Friendly':
+            prefixedText = `Make this text more friendly, yet persuasive: ${selectedText}`;
+            break;
+
         case 'sendToChatGPT_Text':
             prefixedText = `Explain this to me in a shorter and more concise manner: ${selectedText}`;
             break;
