@@ -1,7 +1,7 @@
 const contextMenuItems = [
     {
-        id: 'sendToChatGPT_Text',
-        title: 'Explain This Text - ChatGPT',
+        id: 'sendToChatGPT_Context',
+        title: 'Send This As Context - ChatGPT',
     },
     {
         id: 'sendToChatGPT_Code',
@@ -12,8 +12,8 @@ const contextMenuItems = [
         title: 'Optimize This Code - ChatGPT',
     },
     {
-        id: 'sendToChatGPT_Context',
-        title: 'Send This As Context - ChatGPT',
+        id: 'sendToChatGPT_Text',
+        title: 'Summarize This Text - ChatGPT',
     },
 ];
 
