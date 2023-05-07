@@ -59,32 +59,28 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
 });
 
+function sendTextToTab(tabId, text) {
+    chrome.tabs.executeScript(tabId, {
+        code: `
+            const textarea = document.querySelector('textarea');
+            textarea.value = ${JSON.stringify(text)};
+            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
+        `,
+    });
+}
+
 function sendTextToChatGPT(text) {
     chrome.tabs.query({ url: 'https://chat.openai.com/' }, (tabs) => {
         const tab = tabs[0];
 
         if (tab) {
             chrome.tabs.update(tab.id, { active: true }, () => {
-                setTimeout(() => {
-                    chrome.tabs.executeScript(tab.id, {
-                        code: `
-                            const textarea = document.querySelector('textarea');
-                            textarea.value = ${JSON.stringify(text)};
-                            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
-                        `,
-                    });
-                }, 2000);
+                sendTextToTab(tab.id, text);
             });
         } else {
             chrome.tabs.create({ url: 'https://chat.openai.com/' }, (newTab) => {
                 setTimeout(() => {
-                    chrome.tabs.executeScript(newTab.id, {
-                        code: `
-                            const textarea = document.querySelector('textarea');
-                            textarea.value = ${JSON.stringify(text)};
-                            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
-                        `,
-                    });
+                    sendTextToTab(newTab.id, text);
                 }, 2000);
             });
         }
