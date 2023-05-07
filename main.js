@@ -73,7 +73,7 @@ function sendTextToChatGPT(text) {
                             textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
                         `,
                     });
-                }, 1000); // Adding a delay of 500 milliseconds (0.5 seconds) before executing the script
+                }, 2000);
             });
         } else {
             chrome.tabs.create({ url: 'https://chat.openai.com/' }, (newTab) => {
