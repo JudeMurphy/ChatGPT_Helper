@@ -11,6 +11,10 @@ const contextMenuItems = [
         id: 'sendToChatGPT_Optimize_Code',
         title: 'Optimize This Code - ChatGPT',
     },
+    {
+        id: 'sendToChatGPT_Context',
+        title: 'Send This As Context - ChatGPT',
+    },
 ];
 
 // Remove all existing context menu items and create new ones
@@ -40,6 +44,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
         case 'sendToChatGPT_Optimize_Code':
             prefixedText = `Optimize this code for the best possible runtime performance. Ensure there are no bugs. Ensure all functionality given what you know remains the same. Add comments to the code. With all the instructions given, provide me with the updated code: ${selectedText}`;
+            break;
+
+        case 'sendToChatGPT_Context':
+            prefixedText = `Take this as context for a follow-up question: ${selectedText}. Please respond to this message with 'Context Acquired - Awaiting Next Message'`;
             break;
 
         default:
