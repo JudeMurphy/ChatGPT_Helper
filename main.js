@@ -59,30 +59,31 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
 });
 
-// Function to send text to the chat.openai.com tab
 function sendTextToChatGPT(text) {
     chrome.tabs.query({ url: 'https://chat.openai.com/' }, (tabs) => {
         const tab = tabs[0];
 
         if (tab) {
             chrome.tabs.update(tab.id, { active: true }, () => {
-                chrome.tabs.executeScript(tab.id, {
-                    code: `
-            const textarea = document.querySelector('textarea');
-            textarea.value = ${JSON.stringify(text)};
-            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
-          `,
-                });
+                setTimeout(() => {
+                    chrome.tabs.executeScript(tab.id, {
+                        code: `
+                            const textarea = document.querySelector('textarea');
+                            textarea.value = ${JSON.stringify(text)};
+                            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
+                        `,
+                    });
+                }, 1000); // Adding a delay of 500 milliseconds (0.5 seconds) before executing the script
             });
         } else {
             chrome.tabs.create({ url: 'https://chat.openai.com/' }, (newTab) => {
                 setTimeout(() => {
                     chrome.tabs.executeScript(newTab.id, {
                         code: `
-              const textarea = document.querySelector('textarea');
-              textarea.value = ${JSON.stringify(text)};
-              textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
-            `,
+                            const textarea = document.querySelector('textarea');
+                            textarea.value = ${JSON.stringify(text)};
+                            textarea.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter', 'code': 'Enter', 'which': 13, 'keyCode': 13, 'bubbles': true}));
+                        `,
                     });
                 }, 2000);
             });
